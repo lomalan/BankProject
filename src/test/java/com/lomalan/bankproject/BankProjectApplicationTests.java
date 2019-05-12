@@ -1,4 +1,4 @@
-package com.lomalan.BankProject;
+package com.lomalan.bankproject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

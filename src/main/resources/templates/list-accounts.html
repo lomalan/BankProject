@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Client's Accounts</title>
+</head>
+<body>
+
+<div class="container">
+    <h3>Accounts</h3>
+    <hr>
+
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>Account ID</th>
+            <th>Account Name</th>
+            <th>Amount</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempAccount : ${accounts}">
+            <td th:text="${tempAccount.getId()}"/>
+            <td th:text="${tempAccount.getName()}"/>
+            <td th:text="${tempAccount.getAmount()}"/>
+            <td>
+                <a th:href="@{/transact/showReplenishForm(receiverId=${tempAccount.getId()})}" class="btn btn-info btn-sm">
+                    Replenish
+                </a>
+                <a th:href="@{/transact/showWithdrawForm(senderId=${tempAccount.getId()})}" class="btn btn-danger btn-sm">
+                    Withdraw
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <a th:href="@{/account/showSaveAccountForm(clientId=${param.clientId})}"
+       class="btn btn-primary mb-3">Add Account</a>
+
+    <a th:href="@{/}">Back to Clients list</a>
+</div>
+</body>
+</html>

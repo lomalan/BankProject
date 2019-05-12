@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h3>Withdraw Directory</h3>
+    <hr>
+
+    <p class="h4 mb-4">Save Transaction</p>
+
+    <form action="#" th:action="@{/transact/saveWithdraw(senderId=${param.senderId})}" th:object="${bankTransaction}" method="post">
+
+    <input type="text" required th:field="*{amount}" placeholder="Amount" class="form-control mb-4 col-4">
+
+    <button class="btn btn-info col-2" type="submit">Withdraw</button>
+</form>
+<hr>
+<a th:href="@{/}">Back to Clients list</a>
+</div>
+</body>
+</html>

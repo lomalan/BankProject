@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <title>Client's List</title>
+</head>
+<body>
+<div class="container">
+    <h3>Bank Clients</h3>
+    <hr>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Age</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempClient : ${clients}">
+            <td th:text="${tempClient.getFirstName()}"/>
+            <td th:text="${tempClient.getLastName()}"/>
+            <td th:text="${tempClient.getAddress()}"/>
+            <td th:text="${tempClient.getAge()}"/>
+            <td>
+                <a th:href="@{/account/list(clientId=${tempClient.getId()})}" class="btn btn-info btn-sm">
+                    Show Accounts
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/showSaveClientForm}" class="btn btn-primary mb-3">
+        Add Client
+    </a>
+
+    <a th:href="@{/transact/showAddTransactionForm}" class="btn btn-primary mb-3">
+        Add Transfer
+    </a>
+    <a th:href="@{/transact/list}" class="btn btn-primary mb-3">
+        Transactions List
+    </a>
+</div>
+</body>
+</html>
+</body>
+</html>
