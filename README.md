@@ -5,7 +5,7 @@ Pet project imitate work of BankSystem
 
 Before compiling and running application you need to create in your MySql:
 1) User with credentials:
-name: lomalan
+name: lomalan,
 password: p1234
 2) Database name: BankSystem
 3) Grant to lomalan privileges on BankSystemDB
