@@ -13,9 +13,7 @@
 
     <p class="h4 mb-4">Save Transaction</p>
 
-    <form action="#" th:action="@{/transact/saveTransaction}" th:object="${bankTransaction}" method="post">
-
-        <input type="text" required th:field="*{accountSender.id}" placeholder="From Account" class="form-control mb-4 col-4">
+    <form action="#" th:action="@{/transact/saveTransaction(senderId=${param.senderId})}" th:object="${bankTransaction}" method="post">
 
         <input type="text" required th:field="*{accountReceiver.id}" placeholder="To Account" class="form-control mb-4 col-4">
 

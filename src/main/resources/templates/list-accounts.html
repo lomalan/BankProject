@@ -29,6 +29,9 @@
             <td th:text="${tempAccount.getName()}"/>
             <td th:text="${tempAccount.getAmount()}"/>
             <td>
+                <a th:href="@{/transact/showAddTransactionForm(senderId=${tempAccount.getId()})}" class="btn btn-primary btn-sm">
+                    Add Transfer
+                </a>
                 <a th:href="@{/transact/showReplenishForm(receiverId=${tempAccount.getId()})}" class="btn btn-info btn-sm">
                     Replenish
                 </a>

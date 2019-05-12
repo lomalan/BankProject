@@ -63,7 +63,11 @@ public class BankTransactionController {
     }
 
     @PostMapping("/saveTransaction")
-    public String addNewTransaction(@ModelAttribute("bankTransaction") BankTransaction bankTransaction){
+    public String addNewTransaction(@ModelAttribute("bankTransaction") BankTransaction bankTransaction,
+                                    @RequestParam("senderId") Long id){
+        Account account = new Account();
+        account.setId(id);
+        bankTransaction.setAccountSender(account);
         bankTransactionService.saveTransaction(bankTransaction);
         return REDIRECT_TO_HOME_PAGE;
     }
@@ -74,16 +78,6 @@ public class BankTransactionController {
         Account account = new Account();
         account.setId(id);
         bankTransaction.setAccountReceiver(account);
-        bankTransactionService.saveTransaction(bankTransaction);
-        return REDIRECT_TO_HOME_PAGE;
-    }
-
-    @PostMapping("/saveWithdraw")
-    public String addNewWithdraw(@ModelAttribute("bankTransaction") BankTransaction bankTransaction,
-                                  @RequestParam("senderId") Long id){
-        Account account = new Account();
-        account.setId(id);
-        bankTransaction.setAccountSender(account);
         bankTransactionService.saveTransaction(bankTransaction);
         return REDIRECT_TO_HOME_PAGE;
     }

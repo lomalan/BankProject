@@ -15,6 +15,7 @@
     <table class="table table-bordered">
         <thead class="thead-dark">
         <tr>
+            <th>Id</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Address</th>
@@ -25,6 +26,7 @@
 
         <tbody>
         <tr th:each="tempClient : ${clients}">
+            <td th:text="${tempClient.getId()}"/>
             <td th:text="${tempClient.getFirstName()}"/>
             <td th:text="${tempClient.getLastName()}"/>
             <td th:text="${tempClient.getAddress()}"/>
@@ -41,10 +43,7 @@
     <a th:href="@{/showSaveClientForm}" class="btn btn-primary mb-3">
         Add Client
     </a>
-
-    <a th:href="@{/transact/showAddTransactionForm}" class="btn btn-primary mb-3">
-        Add Transfer
-    </a>
+    <br>
     <a th:href="@{/transact/list}" class="btn btn-primary mb-3">
         Transactions List
     </a>
