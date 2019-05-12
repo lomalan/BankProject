@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -72,5 +73,21 @@ public class Client extends AbstractEntity {
 
     public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Client)) return false;
+        Client client = (Client) o;
+        return (getFirstName() != null && getFirstName().equals(client.getFirstName())) &&
+                (getLastName() != null && getLastName().equals(client.getLastName())) &&
+                (getAddress() != null && getAddress().equals(client.getAddress())) &&
+                (getAge() != null && getAge().equals(client.getAge()));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFirstName(), getLastName(), getAddress(), getAge());
     }
 }

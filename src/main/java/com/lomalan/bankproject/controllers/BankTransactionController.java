@@ -101,8 +101,10 @@ public class BankTransactionController {
     }
 
     private void addModelAttribute(Model model){
+
         model.addAttribute("bankTransaction", new BankTransaction());
     }
+
     private void clearModelAttributes(Model model){
         model.addAttribute("client", new Client());
         model.addAttribute("period", new Period());

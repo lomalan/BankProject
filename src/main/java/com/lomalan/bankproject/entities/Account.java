@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.Objects;
 
 /**
  * <p>
@@ -52,5 +53,20 @@ public class Account extends AbstractEntity{
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!( o instanceof Account)) return false;
+        Account account = (Account) o;
+        return (getAmount() != null && getAmount().equals(account.getAmount())) &&
+                (getName() != null && getName().equals(account.getName())) &&
+                (getClient() != null && getClient().equals(account.getClient()));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAmount(), getName(), getClient());
     }
 }
