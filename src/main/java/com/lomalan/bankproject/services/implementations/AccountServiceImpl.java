@@ -3,6 +3,8 @@ package com.lomalan.bankproject.services.implementations;
 
 import com.lomalan.bankproject.entities.Account;
 import com.lomalan.bankproject.entities.Client;
+import com.lomalan.bankproject.entities.converter.AccountDtoToAccount;
+import com.lomalan.bankproject.entities.dto.AccountDto;
 import com.lomalan.bankproject.repositories.interfaces.AccountDao;
 import com.lomalan.bankproject.repositories.interfaces.ClientDao;
 import com.lomalan.bankproject.services.interfaces.AccountService;
@@ -29,6 +31,8 @@ public class AccountServiceImpl implements AccountService {
 
     private ClientDao clientDao;
 
+    private AccountDtoToAccount accountDtoToAccount;
+
     @Autowired
     public void setAccountDao(AccountDao accountDao) { this.accountDao = accountDao; }
 
@@ -37,21 +41,30 @@ public class AccountServiceImpl implements AccountService {
         this.clientDao = clientDao;
     }
 
+    @Autowired
+    public void setAccountDtoToAccount(AccountDtoToAccount accountDtoToAccount) {
+        this.accountDtoToAccount = accountDtoToAccount;
+    }
+
     @Override
     public List<Account> findAllAccountsByClient(Long id) {
         return accountDao.findAllAccountsByClient(id);
     }
 
     @Override
-    public void saveAccount(Account account, Long clientId) {
+    public void saveAccount(AccountDto account, Long clientId) {
+        Assert.notNull(account, "Account cannot be null");
         Client client = clientDao.findById(clientId);
         Assert.notNull(client, "Client not found");
-        account.setClient(client);
-        accountDao.save(account);
+        Account convertedAccount = accountDtoToAccount.convert(account);
+        Assert.notNull(convertedAccount, "Account cannot be null");
+        convertedAccount.setClient(client);
+        accountDao.save(convertedAccount);
     }
 
     @Override
-    public void updateAccount(Account account) {
+    public void updateAccount(AccountDto accountDto) {
+        Account account = accountDtoToAccount.convert(accountDto);
         accountDao.update(account);
     }
 }

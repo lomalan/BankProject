@@ -2,6 +2,7 @@ package com.lomalan.bankproject.controllers;
 
 
 import com.lomalan.bankproject.entities.Client;
+import com.lomalan.bankproject.entities.dto.ClientDto;
 import com.lomalan.bankproject.services.interfaces.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,14 +38,14 @@ public class ClientController {
     }
 
     @PostMapping("/saveClient")
-    public String addNewClient(@ModelAttribute("client") Client client){
+    public String addNewClient(@ModelAttribute("client") ClientDto client){
         clientService.saveClient(client);
         return "redirect:/";
     }
 
     @GetMapping("/showSaveClientForm")
     public String addClient(Model model){
-        model.addAttribute("client", new Client());
+        model.addAttribute("client", new ClientDto());
         return "add-client";
     }
 }

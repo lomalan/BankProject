@@ -1,7 +1,9 @@
 package com.lomalan.bankproject.controllers;
 
+import com.lomalan.bankproject.entities.dto.AccountDto;
+import com.lomalan.bankproject.entities.dto.BankTransactionDto;
+import com.lomalan.bankproject.entities.dto.ClientDto;
 import com.lomalan.bankproject.entities.dto.Period;
-import com.lomalan.bankproject.entities.Account;
 import com.lomalan.bankproject.entities.BankTransaction;
 import com.lomalan.bankproject.entities.Client;
 import com.lomalan.bankproject.services.interfaces.BankTransactionService;
@@ -49,7 +51,7 @@ public class BankTransactionController {
         return LIST_TRANSACTION_PAGE;
     }
     @GetMapping("/list/client")
-    public String getAllTransactionsByClient(@ModelAttribute("client") Client client, Model model){
+    public String getAllTransactionsByClient(@ModelAttribute("client") ClientDto client, Model model){
         model.addAttribute(TRANSACTION_VARIABLE, bankTransactionService.findTransactionByClient(client));
         clearModelAttributes(model);
         return LIST_TRANSACTION_PAGE;
@@ -63,9 +65,9 @@ public class BankTransactionController {
     }
 
     @PostMapping("/saveTransaction")
-    public String addNewTransaction(@ModelAttribute("bankTransaction") BankTransaction bankTransaction,
+    public String addNewTransaction(@ModelAttribute("bankTransaction") BankTransactionDto bankTransaction,
                                     @RequestParam("senderId") Long id){
-        Account account = new Account();
+        AccountDto account = new AccountDto();
         account.setId(id);
         bankTransaction.setAccountSender(account);
         bankTransactionService.saveTransaction(bankTransaction);
@@ -73,9 +75,9 @@ public class BankTransactionController {
     }
 
     @PostMapping("/saveReplenishment")
-    public String addNewReplenish(@ModelAttribute("bankTransaction") BankTransaction bankTransaction,
+    public String addNewReplenish(@ModelAttribute("bankTransaction") BankTransactionDto bankTransaction,
             @RequestParam("receiverId") Long id){
-        Account account = new Account();
+        AccountDto account = new AccountDto();
         account.setId(id);
         bankTransaction.setAccountReceiver(account);
         bankTransactionService.saveTransaction(bankTransaction);

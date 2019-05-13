@@ -1,6 +1,7 @@
 package com.lomalan.bankproject.services.interfaces;
 
 import com.lomalan.bankproject.entities.Account;
+import com.lomalan.bankproject.entities.dto.AccountDto;
 
 import java.util.List;
 
@@ -16,6 +17,6 @@ import java.util.List;
 public interface AccountService {
 
     List<Account> findAllAccountsByClient(Long id);
-    void saveAccount(Account account, Long clientId);
-    void updateAccount(Account account);
+    void saveAccount(AccountDto account, Long clientId);
+    void updateAccount(AccountDto accountDto);
 }

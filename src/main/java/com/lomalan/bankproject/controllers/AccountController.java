@@ -1,6 +1,6 @@
 package com.lomalan.bankproject.controllers;
 
-import com.lomalan.bankproject.entities.Account;
+import com.lomalan.bankproject.entities.dto.AccountDto;
 import com.lomalan.bankproject.services.interfaces.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,14 +42,14 @@ public class AccountController {
 
 
     @PostMapping("/saveAccount")
-    public String addNewAccount(@ModelAttribute("account") Account account, @RequestParam("clientId") Long id){
+    public String addNewAccount(@ModelAttribute("account") AccountDto account, @RequestParam("clientId") Long id){
         accountService.saveAccount(account, id);
         return "redirect:/";
     }
 
     @GetMapping("/showSaveAccountForm")
     public String addAccount(Model model){
-        model.addAttribute("account", new Account());
+        model.addAttribute("account", new AccountDto());
         return "add-account";
     }
 }

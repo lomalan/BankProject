@@ -3,6 +3,9 @@ package com.lomalan.bankproject.services.implementations;
 import com.lomalan.bankproject.entities.Account;
 import com.lomalan.bankproject.entities.BankTransaction;
 import com.lomalan.bankproject.entities.Client;
+import com.lomalan.bankproject.entities.converter.BankTransactionDtoToBankTransaction;
+import com.lomalan.bankproject.entities.dto.BankTransactionDto;
+import com.lomalan.bankproject.entities.dto.ClientDto;
 import com.lomalan.bankproject.repositories.implementations.AccountDaoImpl;
 import com.lomalan.bankproject.repositories.interfaces.BankTransactionDao;
 import com.lomalan.bankproject.repositories.interfaces.ClientDao;
@@ -31,10 +34,16 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     private BankTransactionDao bankTransactionDao;
     private AccountDaoImpl accountDao;
     private ClientDao clientDao;
+    private BankTransactionDtoToBankTransaction bankTransactionDtoToBankTransaction;
 
     @Autowired
     public void setBankTransactionDao(BankTransactionDao bankTransactionDao) {
         this.bankTransactionDao = bankTransactionDao;
+    }
+
+    @Autowired
+    public void setBankTransactionDtoToBankTransaction(BankTransactionDtoToBankTransaction bankTransactionDtoToBankTransaction) {
+        this.bankTransactionDtoToBankTransaction = bankTransactionDtoToBankTransaction;
     }
 
     @Autowired
@@ -49,7 +58,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     }
 
     @Override
-    public void saveTransaction(BankTransaction bankTransaction) {
+    public void saveTransaction(BankTransactionDto bankTransaction) {
         Assert.notNull(bankTransaction, "BankTransaction cannot be null");
         bankTransaction.setTransactionDate(LocalDateTime.now());
         if(Objects.nonNull(bankTransaction.getAccountSender()) && Objects.nonNull(bankTransaction.getAccountReceiver())){
@@ -64,7 +73,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     }
 
     @Override
-    public List<BankTransaction> findTransactionByClient(Client client) {
+    public List<BankTransaction> findTransactionByClient(ClientDto client) {
         Assert.notNull(client, "Client cannot be null");
         Client saved = clientDao.findClientByEmail(client.getEmail());
         Assert.notNull(saved, "Client not found");
@@ -86,17 +95,20 @@ public class BankTransactionServiceImpl implements BankTransactionService {
         return bankTransactionDao.findAll();
     }
 
-    private void withdrawFromAccount(BankTransaction bankTransaction){
+    private void withdrawFromAccount(BankTransactionDto bankTransaction){
         Account sender = accountDao.findById(bankTransaction.getAccountSender().getId());
         Assert.notNull(sender, "Account not found");
         sender.setAmount(sender.getAmount() - bankTransaction.getAmount());
 
         checkAvailableFunds(sender);
-        bankTransaction.setAccountSender(sender);
+
+        BankTransaction convertedTransaction = bankTransactionDtoToBankTransaction.convert(bankTransaction);
+        Assert.notNull(convertedTransaction, "Transaction cannot be null");
+        convertedTransaction.setAccountSender(sender);
         accountDao.update(sender);
-        bankTransactionDao.save(bankTransaction);
+        bankTransactionDao.save(convertedTransaction);
     }
-    private void transferBetweenTwoAccounts(BankTransaction bankTransaction){
+    private void transferBetweenTwoAccounts(BankTransactionDto bankTransaction){
         Account sender = accountDao.findById(bankTransaction.getAccountSender().getId());
         Account receiver = accountDao.findByAccountNumber(bankTransaction.getAccountReceiver().getAccountNumber());
 
@@ -107,22 +119,26 @@ public class BankTransactionServiceImpl implements BankTransactionService {
         checkAvailableFunds(sender);
         receiver.setAmount(receiver.getAmount() + bankTransaction.getAmount());
 
-        bankTransaction.setAccountSender(sender);
-        bankTransaction.setAccountReceiver(receiver);
+        BankTransaction convertedTransaction = bankTransactionDtoToBankTransaction.convert(bankTransaction);
+        Assert.notNull(convertedTransaction, "Transaction cannot be null");
+        convertedTransaction.setAccountSender(sender);
+        convertedTransaction.setAccountReceiver(receiver);
         accountDao.update(sender);
         accountDao.update(receiver);
-        bankTransactionDao.save(bankTransaction);
+        bankTransactionDao.save(convertedTransaction);
     }
 
-    private void replenishToAccount(BankTransaction bankTransaction){
+    private void replenishToAccount(BankTransactionDto bankTransaction){
         Account receiver = accountDao.findById(bankTransaction.getAccountReceiver().getId());
         checkAccount(receiver);
 
         receiver.setAmount(receiver.getAmount() + bankTransaction.getAmount());
 
-        bankTransaction.setAccountReceiver(receiver);
+        BankTransaction convertedTransaction = bankTransactionDtoToBankTransaction.convert(bankTransaction);
+        Assert.notNull(convertedTransaction, "Transaction cannot be null");
+        convertedTransaction.setAccountReceiver(receiver);
         accountDao.update(receiver);
-        bankTransactionDao.save(bankTransaction);
+        bankTransactionDao.save(convertedTransaction);
     }
 
     private void checkAccount(Account account){

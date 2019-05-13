@@ -1,6 +1,7 @@
 package com.lomalan.bankproject.services.interfaces;
 
 import com.lomalan.bankproject.entities.Client;
+import com.lomalan.bankproject.entities.dto.ClientDto;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public interface ClientService {
     List<Client> findAll();
     Client findById(Long id);
-    void saveClient(Client client);
+    void saveClient(ClientDto clientDto);
     void updateClient(Client client);
 
 }

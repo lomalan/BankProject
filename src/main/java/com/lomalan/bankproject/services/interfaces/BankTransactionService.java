@@ -2,7 +2,8 @@ package com.lomalan.bankproject.services.interfaces;
 
 
 import com.lomalan.bankproject.entities.BankTransaction;
-import com.lomalan.bankproject.entities.Client;
+import com.lomalan.bankproject.entities.dto.BankTransactionDto;
+import com.lomalan.bankproject.entities.dto.ClientDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,8 +18,8 @@ import java.util.List;
  */
 
 public interface BankTransactionService {
-    void saveTransaction(BankTransaction bankTransaction);
-    List<BankTransaction> findTransactionByClient(Client client);
+    void saveTransaction(BankTransactionDto bankTransaction);
+    List<BankTransaction> findTransactionByClient(ClientDto client);
     List<BankTransaction> findAllTransactionByPeriod(LocalDateTime from, LocalDateTime to);
     List<BankTransaction> findAllTransactions();
 }
