@@ -28,4 +28,19 @@ public class AccountDaoImpl extends GenericDaoImpl<Account, Long> implements Acc
         return getEntityManager().createQuery("SELECT i from " + getClazz().getSimpleName() +
                 " i where i.client.id = :clientId", getClazz()).setParameter("clientId", id).getResultList();
     }
+
+    @Override
+    public Account findByAccountNumber(Long accountNumber) {
+        Assert.notNull(accountNumber, "Account number cannot be null");
+        List<Account> result = getEntityManager().createQuery("select i from " + getClazz().getSimpleName() +
+                " i where i.accountNumber =:accountNumber", getClazz())
+                .setParameter("accountNumber", accountNumber)
+                .getResultList();
+
+        if(!result.isEmpty()) {
+            return result.get(0);
+        }
+
+        return null;
+    }
 }

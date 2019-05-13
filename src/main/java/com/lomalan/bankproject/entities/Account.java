@@ -31,6 +31,9 @@ public class Account extends AbstractEntity{
     @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "account_client_FK"))
     private Client client;
 
+    @Column(nullable = false, unique = true)
+    private Long accountNumber;
+
     public Double getAmount() {
         return amount;
     }
@@ -51,8 +54,14 @@ public class Account extends AbstractEntity{
         return client;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient(Client client) { this.client = client; }
+
+    public Long getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(Long accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     @Override
@@ -62,11 +71,13 @@ public class Account extends AbstractEntity{
         Account account = (Account) o;
         return (getAmount() != null && getAmount().equals(account.getAmount())) &&
                 (getName() != null && getName().equals(account.getName())) &&
-                (getClient() != null && getClient().equals(account.getClient()));
+                (getClient() != null && getClient().equals(account.getClient())) &&
+                (getAccountNumber() != null && getAccountNumber().equals(account.getAccountNumber()));
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAmount(), getName(), getClient());
+        return Objects.hash(getAmount(), getName(), getClient(), getAccountNumber());
     }
 }

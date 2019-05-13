@@ -18,6 +18,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Address</th>
+            <th>Email</th>
             <th>Age</th>
         </tr>
         </thead>
@@ -29,6 +30,7 @@
                 <b th:text="${tempClient.getFirstName() + ' ' + tempClient.getLastName()}" />
             </a></td>
             <td th:text="${tempClient.getAddress()}"/>
+            <td th:text="${tempClient.getEmail()}"/>
             <td th:text="${tempClient.getAge()}"/>
         </tr>
         </tbody>

@@ -7,6 +7,7 @@ CREATE TABLE client
   id         int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   first_name varchar(45),
   last_name  varchar(45),
+  email      varchar(120) UNIQUE,
   address    varchar(120),
   age        int(3)
 );
@@ -15,10 +16,11 @@ CREATE TABLE client
 
 CREATE TABLE account
 (
-  id        int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  name      VARCHAR(50),
-  amount    NUMERIC(20, 2),
-  client_id int(11),
+  id             int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  name           VARCHAR(50),
+  account_number NUMERIC(50) UNIQUE,
+  amount         NUMERIC(20, 2),
+  client_id      int(11),
   CONSTRAINT account_client_FK
     FOREIGN KEY (client_id) REFERENCES client (id)
 );

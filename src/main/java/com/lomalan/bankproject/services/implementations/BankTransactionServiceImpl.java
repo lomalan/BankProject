@@ -66,7 +66,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     @Override
     public List<BankTransaction> findTransactionByClient(Client client) {
         Assert.notNull(client, "Client cannot be null");
-        Client saved = clientDao.findById(client.getId());
+        Client saved = clientDao.findClientByEmail(client.getEmail());
         Assert.notNull(saved, "Client not found");
         if(saved.getAccounts().isEmpty()) {
             throw new IllegalArgumentException("Client doesn't have any accounts!");
@@ -98,7 +98,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     }
     private void transferBetweenTwoAccounts(BankTransaction bankTransaction){
         Account sender = accountDao.findById(bankTransaction.getAccountSender().getId());
-        Account receiver = accountDao.findById(bankTransaction.getAccountReceiver().getId());
+        Account receiver = accountDao.findByAccountNumber(bankTransaction.getAccountReceiver().getAccountNumber());
 
         checkAccount(sender);
         checkAccount(receiver);

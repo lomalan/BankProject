@@ -15,6 +15,7 @@
     <p class="h4 mb-4">Save Account</p>
 <form action="#" th:action="@{/account/saveAccount(clientId=${param.clientId})}" th:object="${account}" method="post">
 
+    <input type="text" required th:field="*{accountNumber}" placeholder="AccountNumber" class="form-control mb-4 col-4">
     <input type="text" required th:field="*{name}" placeholder="Account Name" class="form-control mb-4 col-4">
     <input type="text" required th:field="*{amount}" placeholder="Amount" class="form-control mb-4 col-4">
 

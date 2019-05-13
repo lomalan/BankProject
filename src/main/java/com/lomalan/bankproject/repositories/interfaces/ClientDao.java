@@ -12,4 +12,6 @@ import com.lomalan.bankproject.entities.Client;
  */
 
 public interface ClientDao extends GenericDao<Client, Long> {
+
+    Client findClientByEmail(String email);
 }

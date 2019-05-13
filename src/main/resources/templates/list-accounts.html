@@ -25,7 +25,7 @@
 
         <tbody>
         <tr th:each="tempAccount : ${accounts}">
-            <td th:text="${tempAccount.getId()}"/>
+            <td th:text="${tempAccount.getAccountNumber()}"/>
             <td th:text="${tempAccount.getName()}"/>
             <td th:text="${tempAccount.getAmount()}"/>
             <td>

@@ -29,6 +29,9 @@ public class Client extends AbstractEntity {
     @Column(nullable = false)
     private String address;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(nullable = false)
     private String age;
 
@@ -63,8 +66,14 @@ public class Client extends AbstractEntity {
         return age;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setAge(String age) { this.age = age; }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<Account> getAccounts() {
@@ -83,11 +92,12 @@ public class Client extends AbstractEntity {
         return (getFirstName() != null && getFirstName().equals(client.getFirstName())) &&
                 (getLastName() != null && getLastName().equals(client.getLastName())) &&
                 (getAddress() != null && getAddress().equals(client.getAddress())) &&
-                (getAge() != null && getAge().equals(client.getAge()));
+                (getAge() != null && getAge().equals(client.getAge())) &&
+                (getEmail() != null && getEmail().equals(client.getEmail()));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFirstName(), getLastName(), getAddress(), getAge());
+        return Objects.hash(getFirstName(), getLastName(), getEmail(), getAddress(), getAge());
     }
 }

@@ -9,9 +9,9 @@
 <body>
 
 <div class="container">
-    <h3>Find Transactions By User Id</h3>
+    <h3>Find Transactions By User Email</h3>
     <form action="#" th:action="@{/transact/list/client}" th:object="${client}" method="get">
-        <input type="text" required th:field="*{id}" placeholder="Please Enter Client id" class="form-control mb-4 col-4">
+        <input type="text" required th:field="*{email}" placeholder="Please Enter Client Email" class="form-control mb-4 col-4">
         <button class="btn btn-info col-2" type="submit">Find</button>
     </form>
 
@@ -37,8 +37,8 @@
         <tbody>
         <tr th:each="tempTransaction : ${transactions}">
             <td th:text="${tempTransaction.getTransactionDate()}"/>
-            <td th:text="${tempTransaction.getAccountSender() == null ? null : tempTransaction.getAccountSender().getId()}"/>
-            <td th:text="${tempTransaction.getAccountReceiver() == null ? null : tempTransaction.getAccountReceiver().getId()}"/>
+            <td th:text="${tempTransaction.getAccountSender() == null ? null : tempTransaction.getAccountSender().getAccountNumber()}"/>
+            <td th:text="${tempTransaction.getAccountReceiver() == null ? null : tempTransaction.getAccountReceiver().getAccountNumber()}"/>
             <td th:text="${tempTransaction.getAmount()}"/>
         </tr>
         </tbody>

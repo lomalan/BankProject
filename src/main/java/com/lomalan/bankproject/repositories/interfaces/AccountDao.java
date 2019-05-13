@@ -17,4 +17,6 @@ import java.util.List;
 public interface AccountDao extends GenericDao<Account, Long> {
 
     List<Account> findAllAccountsByClient(Long id);
+    Account findByAccountNumber(Long accountNumber);
+
 }
