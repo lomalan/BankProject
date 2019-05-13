@@ -97,16 +97,12 @@ public class BankTransactionServiceImpl implements BankTransactionService {
 
     private void withdrawFromAccount(BankTransactionDto bankTransaction){
         Account sender = accountDao.findById(bankTransaction.getAccountSender().getId());
-        Assert.notNull(sender, "Account not found");
-        sender.setAmount(sender.getAmount() - bankTransaction.getAmount());
+        checkAccount(sender);
 
+        sender.setAmount(sender.getAmount() - bankTransaction.getAmount());
         checkAvailableFunds(sender);
 
-        BankTransaction convertedTransaction = bankTransactionDtoToBankTransaction.convert(bankTransaction);
-        Assert.notNull(convertedTransaction, "Transaction cannot be null");
-        convertedTransaction.setAccountSender(sender);
-        accountDao.update(sender);
-        bankTransactionDao.save(convertedTransaction);
+        saveConvertedBankTransaction(bankTransaction, null, sender);
     }
     private void transferBetweenTwoAccounts(BankTransactionDto bankTransaction){
         Account sender = accountDao.findById(bankTransaction.getAccountSender().getId());
@@ -119,13 +115,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
         checkAvailableFunds(sender);
         receiver.setAmount(receiver.getAmount() + bankTransaction.getAmount());
 
-        BankTransaction convertedTransaction = bankTransactionDtoToBankTransaction.convert(bankTransaction);
-        Assert.notNull(convertedTransaction, "Transaction cannot be null");
-        convertedTransaction.setAccountSender(sender);
-        convertedTransaction.setAccountReceiver(receiver);
-        accountDao.update(sender);
-        accountDao.update(receiver);
-        bankTransactionDao.save(convertedTransaction);
+        saveConvertedBankTransaction(bankTransaction, receiver, sender);
     }
 
     private void replenishToAccount(BankTransactionDto bankTransaction){
@@ -134,10 +124,16 @@ public class BankTransactionServiceImpl implements BankTransactionService {
 
         receiver.setAmount(receiver.getAmount() + bankTransaction.getAmount());
 
+        saveConvertedBankTransaction(bankTransaction, receiver, null);
+    }
+
+
+
+    private void saveConvertedBankTransaction(BankTransactionDto bankTransaction, Account receiver, Account sender){
         BankTransaction convertedTransaction = bankTransactionDtoToBankTransaction.convert(bankTransaction);
         Assert.notNull(convertedTransaction, "Transaction cannot be null");
         convertedTransaction.setAccountReceiver(receiver);
-        accountDao.update(receiver);
+        convertedTransaction.setAccountSender(sender);
         bankTransactionDao.save(convertedTransaction);
     }
 
