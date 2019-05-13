@@ -60,6 +60,9 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     @Override
     public void saveTransaction(BankTransactionDto bankTransaction) {
         Assert.notNull(bankTransaction, "BankTransaction cannot be null");
+        if(bankTransaction.getAmount() < 0){
+            throw new IllegalArgumentException("Amount must be only positive value");
+        }
         bankTransaction.setTransactionDate(LocalDateTime.now());
         if(Objects.nonNull(bankTransaction.getAccountSender()) && Objects.nonNull(bankTransaction.getAccountReceiver())){
             transferBetweenTwoAccounts(bankTransaction);
