@@ -9,8 +9,8 @@ name: lomalan,
 password: p1234
 2) Database name: BankSystem
 3) Grant to lomalan privileges on BankSystemDB
+4) Run scripts from src/sql folder to create and fill tables with test values. 
 
-After this you may run scripts in sql folder.
 
 # Compile and run
 To compile project enter in terminal from project directory: ./mvnw package
